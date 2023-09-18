@@ -12,6 +12,7 @@ export default function App() {
 
   const addBook = () => {
     setBookList([...bookList, userInput]);
+    //reset userinput
     setUserInput("");
   };
 
