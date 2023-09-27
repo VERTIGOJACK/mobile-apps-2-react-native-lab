@@ -11,18 +11,20 @@ export default function ListItem(props) {
   return (
     <View style={style.container}>
       <View style={style.leftContainer}>
-        <Text style={style.type}>{show.type}</Text>
+        <Text style={style.type}>{capitalized(show.type)}</Text>
         <Image style={style.coverImage} source={{ uri: show.imageurl }}></Image>
       </View>
       <View style={style.aside}>
         <Text>{transformTitle(show.title)}</Text>
         <Text>{show.program.name}</Text>
-        <Text>{transformDate(show.dateutc)}</Text>
-        <Text>
-          {show.listenpodfile
-            ? transformTime(show.listenpodfile.duration)
-            : "No pod file"}
-        </Text>
+        <View style={style.asideBottom}>
+          <Text>{transformDate(show.dateutc)}</Text>
+          <Text>
+            {show.listenpodfile
+              ? transformTime(show.listenpodfile.duration)
+              : "No pod file"}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -39,7 +41,18 @@ const style = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
   },
-  aside: { flex: 1, alignItems: "center" },
+  aside: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-around",
+    height: "100%",
+  },
+  asideBottom: {
+    width: "100%",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
   leftContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
   coverImage: { flex: 8, aspectRatio: "1/1", borderRadius: 10 },
   type: { flex: 1 },
@@ -49,7 +62,8 @@ const transformTitle = (title: string) => {
   //titles sometimes contain timestamps, use regex to remove by
   //replacing everything not matching expression with empty string
   //what complicates this is that sr uses numbers in their show names (P3 P4 etc.)
-  return title.replace(/[^a-zA-ZåäöÅÄÖ\s-.,\\]+|P\d+/gi, "");
+  //could probably be improved further by some regex wizard.
+  return title.replace(/[^a-zA-ZåäöÅÄÖ\s-.,\\]+|p\d+/gi, "");
 };
 
 const transformDate = (date: string) => {
@@ -76,4 +90,9 @@ const transformTime = (time: number) => {
     .padStart(2, "0")}`;
 
   return formattedTime;
+};
+
+//capitalize first letter
+const capitalized = (text: string) => {
+  return text[0].toUpperCase() + text.substring(1);
 };
