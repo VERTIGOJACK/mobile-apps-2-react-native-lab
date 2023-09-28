@@ -7,7 +7,10 @@ import baseStyle from "../styles/Base";
 export default function AboutScreen() {
   return (
     <View style={baseStyle.screenContainer}>
-      <Text>Hello from about component</Text>
+      <Text>
+        This app displays the most recent publications on the platform 'Sveriges
+        Radio', which is the national public radio broadcaster of Sweden.{" "}
+      </Text>
     </View>
   );
 }

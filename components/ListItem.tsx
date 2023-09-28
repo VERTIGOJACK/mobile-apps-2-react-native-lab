@@ -73,7 +73,7 @@ const transformDate = (date: string) => {
   // convert to date
   const newDate = new Date(parseInt(date));
 
-  // build date string
+  // build date string, split by "T" and get first part of array.
   const dateString = newDate.toISOString().split("T").shift();
 
   //return

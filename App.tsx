@@ -20,43 +20,71 @@ import AboutScreen from "./screens/AboutScreen";
 const Tab = createBottomTabNavigator();
 
 //icons for navigation
-const homeIcon = () => {
-  return <Ionicons name="home"></Ionicons>;
-};
-const publicationsIcon = () => {
-  return <Ionicons name="newspaper"></Ionicons>;
-};
-const AboutIcon = () => {
-  return <Ionicons name="information-circle"></Ionicons>;
+const Icon = (focused, name) => {
+  const newValue = focused ? 40 : 30;
+  return <Ionicons name={name} size={newValue} style={styles.icons}></Ionicons>;
 };
 
 //App should contain navigationcontainer as root element
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <StatusBar
+        style="light" // Set the status bar style to light content (white icons)
+        backgroundColor="blue" // Set the background color if needed
+      />
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: styles.tabBar,
+          tabBarIconStyle: styles.icons,
+        }}>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: homeIcon,
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
+            headerTintColor: "white", // Make icons and title text white
+            tabBarIcon: ({ focused }) => {
+              return Icon(focused, "home");
+            },
           }}
         />
         <Tab.Screen
           name="Publications"
           component={PublicationsScreen}
           options={{
-            tabBarIcon: publicationsIcon,
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
+            tabBarIcon: ({ focused }) => {
+              return Icon(focused, "newspaper");
+            },
           }}
         />
         <Tab.Screen
           name="About"
           component={AboutScreen}
           options={{
-            tabBarIcon: AboutIcon,
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
+            tabBarIcon: ({ focused }) => {
+              return Icon(focused, "information-circle");
+            },
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    height: 80,
+  },
+  icons: { color: "blue" },
+  header: { backgroundColor: "blue" },
+  headerTitle: { color: "white" },
+  statusBar: { color: "white" },
+});
